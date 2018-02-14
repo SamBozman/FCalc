@@ -32,7 +32,7 @@ class MainActivity : SimpleActivity(), Calculator {
         appLaunched()
 
         calc = CalculatorImpl(this, applicationContext)
-
+        //Set onclicklisteners on all buttons
         btn_plus.setOnClickListener { calc.handleOperation(PLUS); checkHaptic(it) }
         btn_minus.setOnClickListener { calc.handleOperation(MINUS); checkHaptic(it) }
         btn_multiply.setOnClickListener { calc.handleOperation(MULTIPLY); checkHaptic(it) }
@@ -129,6 +129,10 @@ class MainActivity : SimpleActivity(), Calculator {
 
     override fun setValue(value: String, context: Context) {
         result.text = value
+    }
+
+    override fun setFraction(value: String, context: Context) {
+        fraction.text = value
     }
 
     // used only by Robolectric
