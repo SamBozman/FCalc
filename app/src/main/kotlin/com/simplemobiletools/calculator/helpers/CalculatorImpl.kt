@@ -1,12 +1,15 @@
 package com.simplemobiletools.calculator.helpers
 
 import android.content.Context
+//import android.widget.Toast
 import com.simplemobiletools.calculator.R
 import com.simplemobiletools.calculator.operation.OperationFactory
 
 class CalculatorImpl(calculator: Calculator, val context: Context) {
     var displayedNumber: String? = null
     var displayedFormula: String? = null
+    var displayedFraction: String? = null
+
     var lastKey: String? = null
     private var mLastOperation: String? = null
     private var mCallback: Calculator? = calculator
@@ -20,13 +23,14 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
         resetValues()
         setValue("0")
         setFormula("")
+        setFraction("")
     }
 
     private fun resetValueIfNeeded() {
-        if (mResetValue)
+        if (mResetValue) // If True then displayedNumber = 0
             displayedNumber = "0"
 
-        mResetValue = false
+        mResetValue = false // Then reset to false
     }
 
     private fun resetValues() {
@@ -35,6 +39,7 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
         mResetValue = false
         mLastOperation = ""
         displayedNumber = ""
+        displayedFraction = ""
         displayedFormula = ""
         mIsFirstOperation = true
         lastKey = ""
@@ -50,6 +55,15 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
         displayedFormula = value
     }
 
+    private fun setFraction(value: String) {
+        mCallback!!.setFraction(value, context)
+        displayedFraction = value
+    }
+
+    private fun showToastMessage(value: String){
+        mCallback!!.showToastMessage(value, context)
+    }
+
     private fun updateFormula() {
         val first = Formatter.doubleToString(mBaseValue)
         val second = Formatter.doubleToString(mSecondValue)
@@ -63,7 +77,9 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
     }
 
     fun addDigit(number: Int) {
-        val currentValue = displayedNumber
+        val currentValue = displayedNumber //displayedNumber is a String
+
+        //you can concatenate string literal with integer by + operator
         val newValue = formatString(currentValue!! + number)
         setValue(newValue)
     }
@@ -75,15 +91,18 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
             return str
         }
 
+        //reformats the String (to reposition the commas) and then returns a Double number representation of the submitted String
         val doubleValue = Formatter.stringToDouble(str)
-        return Formatter.doubleToString(doubleValue)
+
+        //changes the Double into a String with commas in the correct place
+        return Formatter.doubleToString(doubleValue) //Returns the reformatted String
     }
 
     private fun updateResult(value: Double) {
         setValue(Formatter.doubleToString(value))
         mBaseValue = value
     }
-
+//This function
     private fun getDisplayedNumberAsDouble() = Formatter.stringToDouble(displayedNumber!!)
 
     fun handleResult() {
@@ -113,7 +132,7 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
 
     fun handleOperation(operation: String) {
         if (lastKey == DIGIT && operation != ROOT)
-            handleResult()
+            handleResult() //
 
         mResetValue = true
         lastKey = operation
@@ -124,6 +143,23 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
             mResetValue = false
         }
     }
+
+    fun handleDiFract(){
+
+        val myInt = displayedNumber!!.lastIndexOf(".")
+        if(myInt != -1){
+           //val myDecimalString = displayedNumber!!.substring(myInt)
+            //val myDecimal = myDecimalString.toDouble()
+            val myDecimal=(displayedNumber!!.substring(myInt).toDouble())*16
+            val myDecimalString = myDecimal.toString()
+
+            showToastMessage(myDecimalString)
+        }
+        else{
+            showToastMessage("Mantissa not found")
+        }
+    }
+
 
     fun handleClear() {
         if (displayedNumber.equals(NAN)) {
@@ -151,10 +187,12 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
         resetValues()
         setValue("0")
         setFormula("")
+        setFraction("")
     }
 
     fun handleEquals() {
-        if (lastKey == EQUALS)
+
+        if (lastKey == EQUALS)// If this is the second time for 'Equals" then
             calculateResult()
 
         if (lastKey != DIGIT)

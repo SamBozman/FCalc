@@ -16,6 +16,7 @@ object Formatter {
         formatter.isGroupingUsed = true
         return formatter.format(d)
     }
-
+        //This function removes all the commas from the submitted String
+        // and then returns a Double number representation of the String
     fun stringToDouble(str: String) = str.replace(",", "").toDouble()
 }

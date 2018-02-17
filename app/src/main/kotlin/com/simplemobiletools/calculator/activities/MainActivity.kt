@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import com.simplemobiletools.calculator.BuildConfig
 import com.simplemobiletools.calculator.R
 import com.simplemobiletools.calculator.extensions.config
@@ -47,7 +48,7 @@ class MainActivity : SimpleActivity(), Calculator {
         getButtonIds().forEach {
             it.setOnClickListener { calc.numpadClicked(it.id); checkHaptic(it) }
         }
-
+        btn_difract.setOnClickListener { calc.handleDiFract(); checkHaptic(it) }//SAM
         btn_equals.setOnClickListener { calc.handleEquals(); checkHaptic(it) }
         formula.setOnLongClickListener { copyToClipboard(false) }
         result.setOnLongClickListener { copyToClipboard(true) }
@@ -127,12 +128,18 @@ class MainActivity : SimpleActivity(), Calculator {
         }
     }
 
+
+    override fun showToastMessage(value: String, context: Context) {
+        Toast.makeText(applicationContext, value, Toast.LENGTH_SHORT).show()
+    }
     override fun setValue(value: String, context: Context) {
         result.text = value
     }
 
     override fun setFraction(value: String, context: Context) {
+
         fraction.text = value
+
     }
 
     // used only by Robolectric
