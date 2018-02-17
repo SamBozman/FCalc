@@ -18,6 +18,7 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
     private var mResetValue = false
     private var mBaseValue = 0.0
     private var mSecondValue = 0.0
+    private var mDenominator = 16.0
 
     init {
         resetValues()
@@ -145,19 +146,26 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
     }
 
     fun handleDiFract(){
-
-        val myInt = displayedNumber!!.lastIndexOf(".")
-        if(myInt != -1){
-           //val myDecimalString = displayedNumber!!.substring(myInt)
-            //val myDecimal = myDecimalString.toDouble()
-            val myDecimal=(displayedNumber!!.substring(myInt).toDouble())*16
-            val myDecimalString = myDecimal.toString()
-
-            showToastMessage(myDecimalString)
+        var currentValue = displayedNumber
+        var decimalPointIndex = currentValue!!.lastIndexOf(".")
+        //retrieve decimal point position in string. (-1 indicates it was not found)
+        if(decimalPointIndex != -1){
+            //retrieve the mantissa of the displayedNumber
+            val mMantissa = currentValue.substring(decimalPointIndex)
+            val mWholePart = currentValue.substring(0,decimalPointIndex)
+            val mMantissaDouble = mMantissa.toDouble()
+            var result = mMantissaDouble/mDenominator
+            currentValue = result.toString()
+            var decimalPointIndex2 = currentValue.lastIndexOf(".")
         }
+
+
+
         else{
             showToastMessage("Mantissa not found")
         }
+
+
     }
 
 
