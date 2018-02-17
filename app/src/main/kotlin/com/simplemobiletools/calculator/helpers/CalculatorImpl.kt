@@ -175,7 +175,6 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
         }
 
 
-
         else{
             showToastMessage("Mantissa not found")
         }
