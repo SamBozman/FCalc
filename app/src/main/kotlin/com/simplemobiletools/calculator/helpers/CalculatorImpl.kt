@@ -4,6 +4,11 @@ import android.content.Context
 //import android.widget.Toast
 import com.simplemobiletools.calculator.R
 import com.simplemobiletools.calculator.operation.OperationFactory
+import java.math.BigDecimal
+import java.math.BigInteger
+import java.math.MathContext
+import java.math.RoundingMode
+import kotlin.math.round
 
 class CalculatorImpl(calculator: Calculator, val context: Context) {
     var displayedNumber: String? = null
@@ -18,7 +23,7 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
     private var mResetValue = false
     private var mBaseValue = 0.0
     private var mSecondValue = 0.0
-    private var mDenominator = 16.0
+    private var mDenominator = 16
 
     init {
         resetValues()
@@ -145,18 +150,28 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
         }
     }
 
+
+//    fun BigInteger.roundToDecimalPlaces() =
+//            BigDecimal(this).setScale(0, BigDecimal.ROUND_HALF_UP).toBigInteger()
+
     fun handleDiFract(){
         var currentValue = displayedNumber
         var decimalPointIndex = currentValue!!.lastIndexOf(".")
+
         //retrieve decimal point position in string. (-1 indicates it was not found)
         if(decimalPointIndex != -1){
+
             //retrieve the mantissa of the displayedNumber
             val mMantissa = currentValue.substring(decimalPointIndex)
-            val mWholePart = currentValue.substring(0,decimalPointIndex)
-            val mMantissaDouble = mMantissa.toDouble()
-            var result = mMantissaDouble/mDenominator
-            currentValue = result.toString()
-            var decimalPointIndex2 = currentValue.lastIndexOf(".")
+            //Round (up or Down) Mantissa
+            var mNumerator = (Math.round( mMantissa.toDouble()*mDenominator.toDouble())).toInt()
+            //Set Fraction TextView
+            if(mNumerator!=0){
+                setFraction(mNumerator.toString() + "/" + (mDenominator.toString()))
+                showToastMessage("Fractional value of Mantissa to nearest "+ mDenominator.toString() + "th")
+            }
+
+
         }
 
 
