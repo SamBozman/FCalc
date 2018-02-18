@@ -150,10 +150,6 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
         }
     }
 
-
-//    fun BigInteger.roundToDecimalPlaces() =
-//            BigDecimal(this).setScale(0, BigDecimal.ROUND_HALF_UP).toBigInteger()
-
     fun handleDiFract(){
         var currentValue = displayedNumber
         var decimalPointIndex = currentValue!!.lastIndexOf(".")
@@ -167,20 +163,36 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
             var mNumerator = (Math.round( mMantissa.toDouble()*mDenominator.toDouble())).toInt()
             //Set Fraction TextView
             if(mNumerator!=0){
-                setFraction(mNumerator.toString() + "/" + (mDenominator.toString()))
+                var g1 = mNumerator
+                var g2 = mDenominator
+                var result = GCD(g1,g2)
+                g1 /= result
+                g2 /= result
+                setFraction(g1.toString() + "/" + (g2.toString()))
                 showToastMessage("Fractional value of Mantissa to nearest "+ mDenominator.toString() + "th")
+
             }
-
-
         }
-
-
         else{
             showToastMessage("Mantissa not found")
         }
 
 
     }
+
+    //Find GCD of two numbers TO BE TESTED
+    fun GCD(t1: Int, t2: Int): Int {
+        var n1 = t1
+        var n2 = t2
+        while (n1 != n2) {
+            if (n1 > n2)
+                n1 -= n2
+            else
+                n2 -= n1
+        }
+        return n1
+    }
+
 
 
     fun handleClear() {
