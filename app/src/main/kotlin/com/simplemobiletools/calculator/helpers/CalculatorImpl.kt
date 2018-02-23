@@ -23,7 +23,7 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
     private var mResetValue = false
     private var mBaseValue = 0.0
     private var mSecondValue = 0.0
-    private var mDenominator = 16
+    var mDenominator = 16
 
     init {
         resetValues()

@@ -1,11 +1,14 @@
 package com.simplemobiletools.calculator.activities
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import com.simplemobiletools.calculator.BuildConfig
 import com.simplemobiletools.calculator.R
@@ -49,6 +52,7 @@ class MainActivity : SimpleActivity(), Calculator {
             it.setOnClickListener { calc.numpadClicked(it.id); checkHaptic(it) }
         }
         btn_difract.setOnClickListener { calc.handleDiFract(); checkHaptic(it) }//SAM
+        btn_difract.setOnLongClickListener { this.setDenominator(); true }
         btn_equals.setOnClickListener { calc.handleEquals(); checkHaptic(it) }
         formula.setOnLongClickListener { copyToClipboard(false) }
         result.setOnLongClickListener { copyToClipboard(true) }
@@ -57,6 +61,9 @@ class MainActivity : SimpleActivity(), Calculator {
         AutofitHelper.create(formula)
         storeStateVariables()
         updateViewColors(calculator_holder, config.textColor)
+
+
+
     }
 
     override fun onResume() {
@@ -90,6 +97,31 @@ class MainActivity : SimpleActivity(), Calculator {
         }
         return true
     }
+
+   private fun setDenominator(){
+       val dialog = AlertDialog.Builder(this)
+       val dialogView = layoutInflater.inflate(R.layout.custom_dialog,null)
+       var et_number = dialogView.findViewById<EditText>(R.id.et_number)
+       //val nametxt = findViewById (R.id.nametxt) as EditText
+       dialog.setView(dialogView)
+       dialog.setCancelable(false)
+       dialog.setPositiveButton("Set Denominator",{ dialogInterface: DialogInterface, i: Int -> })
+       val customDialog = dialog.create()
+       customDialog.show()
+       et_number.setText(calc.mDenominator.toString())
+
+       customDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener({
+
+           if (et_number.text.length <= 3 && !et_number.text.isNullOrBlank()){
+                val value = et_number.getText().toString()
+                val finalValue = Integer.parseInt(value)
+                calc.mDenominator = finalValue
+                customDialog.dismiss()}
+           else
+           {Toast.makeText(baseContext, "Denominator must be between 10 and 100", Toast.LENGTH_SHORT).show();}
+       })
+   }
+
 
     private fun storeStateVariables() {
         config.apply {

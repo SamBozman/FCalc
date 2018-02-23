@@ -17,6 +17,13 @@
 
         This app is just one piece of a bigger series of apps. You can find the rest of them at http://www.simplemobiletools.com
     </string>
+    <string name="fraction_info">Please enter a denominator between 10 and 100.
+        This will be used to create a fraction representation of the Mantissa.
+        As an example, if you choose 16 as the denominator then you will get
+        a fraction to the nearest 1/16 of the value of the Mantissa. A value
+        of 32 would result in a fraction to the nearest 1/32. (etc).
+        The fraction will be reduced if possible.
+    </string>
 
     <!--
         Haven't found some strings? There's more at
