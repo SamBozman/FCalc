@@ -161,6 +161,8 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
             val mMantissa = currentValue.substring(decimalPointIndex)
             //Round (up or Down) Mantissa
             var mNumerator = (Math.round( mMantissa.toDouble()*mDenominator.toDouble())).toInt()
+
+
             //Set Fraction TextView
             if(mNumerator!=0){
                 var g1 = mNumerator
@@ -169,7 +171,7 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
                 g1 /= result
                 g2 /= result
                 setFraction(g1.toString() + "/" + (g2.toString()))
-                showToastMessage("Fractional value of Mantissa to nearest "+ mDenominator.toString() + "th")
+                showToastMessage("Fractional value of Mantissa to nearest "+ mDenominator.toString())
 
             }
         }

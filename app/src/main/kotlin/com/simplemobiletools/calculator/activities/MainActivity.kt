@@ -33,7 +33,7 @@ class MainActivity : SimpleActivity(), Calculator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        appLaunched()
+        //appLaunched()
 
         calc = CalculatorImpl(this, applicationContext)
         //Set onclicklisteners on all buttons
@@ -101,8 +101,8 @@ class MainActivity : SimpleActivity(), Calculator {
    private fun setDenominator(){
        val dialog = AlertDialog.Builder(this)
        val dialogView = layoutInflater.inflate(R.layout.custom_dialog,null)
-       var et_number = dialogView.findViewById<EditText>(R.id.et_number)
-       //val nametxt = findViewById (R.id.nametxt) as EditText
+       val et_number = dialogView.findViewById<EditText>(R.id.et_number)
+
        dialog.setView(dialogView)
        dialog.setCancelable(false)
        dialog.setPositiveButton("Set Denominator",{ dialogInterface: DialogInterface, i: Int -> })
