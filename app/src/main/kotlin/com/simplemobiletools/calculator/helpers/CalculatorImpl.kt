@@ -151,26 +151,37 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
     }
 
     fun handleDiFract(){
-        var currentValue = displayedNumber
-        var decimalPointIndex = currentValue!!.lastIndexOf(".")
+        val currentValue = displayedNumber
+        val decimalPointIndex = currentValue!!.lastIndexOf(".")
 
         //retrieve decimal point position in string. (-1 indicates it was not found)
-        if(decimalPointIndex != -1){
+        if(currentValue.lastIndexOf(".") != -1){
 
             //retrieve the mantissa of the displayedNumber
             val mMantissa = currentValue.substring(decimalPointIndex)
             //Round (up or Down) Mantissa
-            var mNumerator = (Math.round( mMantissa.toDouble()*mDenominator.toDouble())).toInt()
+            val mNumerator = (Math.round( mMantissa.toDouble()*mDenominator.toDouble())).toInt()
+//            var num1: Double = mDenominator.toDouble()
+//            var num2: Double = mNumerator.toDouble()
+//            var num3: Double = mMantissa.toDouble()
+            //Create a symbol ('<' or '>') to indicate the fraction was rounded up or down
+
+            //Todo: add test to see if fraction is egaul to mantissa. If so, blank the symbol
+           //Indicate with > or < rounding up or down
+            var symbol = if((mNumerator.toDouble()/mDenominator.toDouble())>= mMantissa.toDouble()) '>' else '<'
+
+
 
 
             //Set Fraction TextView
             if(mNumerator!=0){
                 var g1 = mNumerator
                 var g2 = mDenominator
+                //Get the fraction reduced if possible
                 var result = GCD(g1,g2)
                 g1 /= result
                 g2 /= result
-                setFraction(g1.toString() + "/" + (g2.toString()))
+                setFraction(g1.toString() + "/" + (g2.toString()) + symbol)
                 showToastMessage("Fractional value of Mantissa to nearest "+ mDenominator.toString())
 
             }
