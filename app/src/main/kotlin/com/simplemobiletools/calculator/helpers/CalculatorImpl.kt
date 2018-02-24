@@ -4,11 +4,6 @@ import android.content.Context
 //import android.widget.Toast
 import com.simplemobiletools.calculator.R
 import com.simplemobiletools.calculator.operation.OperationFactory
-import java.math.BigDecimal
-import java.math.BigInteger
-import java.math.MathContext
-import java.math.RoundingMode
-import kotlin.math.round
 
 class CalculatorImpl(calculator: Calculator, val context: Context) {
     var displayedNumber: String? = null
@@ -284,17 +279,17 @@ class CalculatorImpl(calculator: Calculator, val context: Context) {
         resetValueIfNeeded()
 
         when (id) {
-            R.id.btn_decimal -> decimalClicked()
-            R.id.btn_0 -> zeroClicked()
-            R.id.btn_1 -> addDigit(1)
-            R.id.btn_2 -> addDigit(2)
-            R.id.btn_3 -> addDigit(3)
-            R.id.btn_4 -> addDigit(4)
-            R.id.btn_5 -> addDigit(5)
-            R.id.btn_6 -> addDigit(6)
-            R.id.btn_7 -> addDigit(7)
-            R.id.btn_8 -> addDigit(8)
-            R.id.btn_9 -> addDigit(9)
+            R.id.b_decimal -> decimalClicked()
+            R.id.b_0 -> zeroClicked()
+            R.id.b_1 -> addDigit(1)
+            R.id.b_2 -> addDigit(2)
+            R.id.b_3 -> addDigit(3)
+            R.id.b_4 -> addDigit(4)
+            R.id.b_5 -> addDigit(5)
+            R.id.b_6 -> addDigit(6)
+            R.id.b_7 -> addDigit(7)
+            R.id.b_8 -> addDigit(8)
+            R.id.b_9 -> addDigit(9)
         }
     }
 }

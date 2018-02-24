@@ -37,28 +37,28 @@ class MainActivity : SimpleActivity(), Calculator {
 
         calc = CalculatorImpl(this, applicationContext)
         //Set onclicklisteners on all buttons
-        btn_plus.setOnClickListener { calc.handleOperation(PLUS); checkHaptic(it) }
-        btn_minus.setOnClickListener { calc.handleOperation(MINUS); checkHaptic(it) }
-        btn_multiply.setOnClickListener { calc.handleOperation(MULTIPLY); checkHaptic(it) }
-        btn_divide.setOnClickListener { calc.handleOperation(DIVIDE); checkHaptic(it) }
-        btn_modulo.setOnClickListener { calc.handleOperation(MODULO); checkHaptic(it) }
-        btn_power.setOnClickListener { calc.handleOperation(POWER); checkHaptic(it) }
-        btn_root.setOnClickListener { calc.handleOperation(ROOT); checkHaptic(it) }
+        b_plus.setOnClickListener { calc.handleOperation(PLUS); checkHaptic(it) }
+        b_minus.setOnClickListener { calc.handleOperation(MINUS); checkHaptic(it) }
+        b_multiply.setOnClickListener { calc.handleOperation(MULTIPLY); checkHaptic(it) }
+        b_divide.setOnClickListener { calc.handleOperation(DIVIDE); checkHaptic(it) }
+        b_modulo.setOnClickListener { calc.handleOperation(MODULO); checkHaptic(it) }
+        b_power.setOnClickListener { calc.handleOperation(POWER); checkHaptic(it) }
+        b_root.setOnClickListener { calc.handleOperation(ROOT); checkHaptic(it) }
 
-        btn_clear.setOnClickListener { calc.handleClear(); checkHaptic(it) }
-        btn_clear.setOnLongClickListener { calc.handleReset(); true }
+        b_clear.setOnClickListener { calc.handleClear(); checkHaptic(it) }
+        b_clear.setOnLongClickListener { calc.handleReset(); true }
 
         getButtonIds().forEach {
             it.setOnClickListener { calc.numpadClicked(it.id); checkHaptic(it) }
         }
-        btn_difract.setOnClickListener { calc.handleDiFract(); checkHaptic(it) }//SAM
-        btn_difract.setOnLongClickListener { this.setDenominator(); true }
-        btn_equals.setOnClickListener { calc.handleEquals(); checkHaptic(it) }
-        formula.setOnLongClickListener { copyToClipboard(false) }
-        result.setOnLongClickListener { copyToClipboard(true) }
+        b_dtf.setOnClickListener { calc.handleDiFract(); checkHaptic(it) }//SAM
+        b_dtf.setOnLongClickListener { this.setDenominator(); true }
+        b_equals.setOnClickListener { calc.handleEquals(); checkHaptic(it) }
+        tv_formula.setOnLongClickListener { copyToClipboard(false) }
+        tv_result.setOnLongClickListener { copyToClipboard(true) }
 
-        AutofitHelper.create(result)
-        AutofitHelper.create(formula)
+        AutofitHelper.create(tv_result)
+        AutofitHelper.create(tv_formula)
         storeStateVariables()
        updateViewColors(calculator_holder, config.textColor)
 
@@ -144,12 +144,12 @@ class MainActivity : SimpleActivity(), Calculator {
         startAboutActivity(R.string.app_name, LICENSE_KOTLIN or LICENSE_AUTOFITTEXTVIEW or LICENSE_ROBOLECTRIC or LICENSE_ESPRESSO, BuildConfig.VERSION_NAME)
     }
 
-    private fun getButtonIds() = arrayOf(btn_decimal, btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9)
+    private fun getButtonIds() = arrayOf(b_decimal, b_0, b_1, b_2, b_3, b_4, b_5, b_6, b_7, b_8, b_9)
 
     private fun copyToClipboard(copyResult: Boolean): Boolean {
-        var value = formula.value
+        var value = tv_formula.value
         if (copyResult) {
-            value = result.value
+            value = tv_result.value
         }
 
         return if (value.isEmpty()) {
@@ -165,7 +165,7 @@ class MainActivity : SimpleActivity(), Calculator {
         Toast.makeText(applicationContext, value, Toast.LENGTH_SHORT).show()
     }
     override fun setValue(value: String, context: Context) {
-        result.text = value
+        tv_result.text = value
     }
 
     override fun setFraction(value: String, context: Context) {
@@ -181,6 +181,6 @@ class MainActivity : SimpleActivity(), Calculator {
     }
 
     override fun setFormula(value: String, context: Context) {
-        formula.text = value
+        tv_formula.text = value
     }
 }
